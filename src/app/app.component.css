@@ -1,0 +1,12 @@
+
+.validator-window {
+    background-color: #434343;
+    width: 50rem;
+    max-width: 800px;
+    height: 100px;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
