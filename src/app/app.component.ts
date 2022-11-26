@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { concat } from 'rxjs';
@@ -9,11 +10,11 @@ import { concat } from 'rxjs';
 })
 export class AppComponent {
   title = 'jmbgValidator';
+  datePipeEn: DatePipe = new DatePipe('en-US');
 
   constructor(private formBuilder: FormBuilder) {}
 
   jmbgForm = this.formBuilder.group({
-    gender: ['', Validators.required],
     jmbg: new FormControl('', [
       Validators.required,
       Validators.maxLength(13),
@@ -23,12 +24,14 @@ export class AppComponent {
 
   onSubmit(): void {
     if (this.jmbgForm.valid) {
-      alert(this.validate().isValid);
+      let result = this.validate();
+      alert(result.isValid);
+      alert(result.errorMessage);
+      // alert(this.validate().errorMessage);
     }
   }
 
   validate(): any {
-    var gender = this.jmbgForm.value.gender;
     var jmbg = this.jmbgForm.value.jmbg;
 
     var dd = '',
@@ -48,44 +51,65 @@ export class AppComponent {
     }
 
     // Check if date is valid
-    // there is no 31 of november
+    let currentDate = new Date();
+    let inputDate = new Date(Number(ggg) + 1000, Number(mm) - 1, Number(dd));
+    let currentMilenium =
+      Number(this.datePipeEn.transform(currentDate, 'yyyy')?.slice(0, 1)) *
+      1000;
 
-    // Check if regional code is valid
-    if (Number(rr) < 1 && Number(rr) > 96) {
-      return { isValid: false, errorMessage: 'Regional code is not valid!' };
+    if (Number(inputDate.getDate()) !== Number(dd)) {
+      return { isValid: false, errorMessage: 'Date is not valid!' };
     }
 
-    // Check if gender code is valid
-    if (gender === 'Male') {
-      if (Number(bbb) >= 500) {
-        return { isValid: false, errorMessage: 'Gender code is not valid!' };
-      }
+    if (Number(inputDate.getMonth()) + 1 !== Number(mm)) {
+      return { isValid: false, errorMessage: 'Date is not valid!' };
+    }
+
+    if (inputDate > currentDate) {
+      return { isValid: false, errorMessage: 'Date is not valid!' };
     } else {
-      if (Number(bbb) < 500) {
-        return { isValid: false, errorMessage: 'Gender code is not valid!' };
+      let isValidDate = false;
+      while (currentMilenium > 0 && !isValidDate) {
+        if (
+          new Date(Number(ggg) + currentMilenium, Number(mm) - 1, Number(dd)) <=
+          currentDate
+        ) {
+          isValidDate = true;
+          break;
+        }
+        currentMilenium -= 1000;
       }
-    }
 
-    // Check if control sum is valid
-    if (jmbg !== null && jmbg !== undefined) {
-      var controlCode = 0;
-      controlCode =
-        11 -
-        ((7 * (Number(jmbg[0]) + Number(jmbg[6])) +
-          6 * (Number(jmbg[1]) + Number(jmbg[7])) +
-          5 * (Number(jmbg[2]) + Number(jmbg[8])) +
-          4 * (Number(jmbg[3]) + Number(jmbg[9])) +
-          3 * (Number(jmbg[4]) + Number(jmbg[10])) +
-          2 * (Number(jmbg[5]) + Number(jmbg[11]))) %
-          11);
-      if (controlCode > 9) {
-        controlCode = 0;
+      if (!isValidDate) {
+        return { isValid: false, errorMessage: 'Date is not valid!' };
       }
-      if (Number(k) !== controlCode) {
-        return { isValid: false, errorMessage: 'Control code is not valid!' };
-      }
-    }
 
-    return { isValid: true, errorMessage: null };
+      // Check if regional code is valid
+      if (Number(rr) < 1 && Number(rr) > 96) {
+        return { isValid: false, errorMessage: 'Regional code is not valid!' };
+      }
+
+      // Check if control sum is valid
+      if (jmbg !== null && jmbg !== undefined) {
+        var controlCode = 0;
+        controlCode =
+          11 -
+          ((7 * (Number(jmbg[0]) + Number(jmbg[6])) +
+            6 * (Number(jmbg[1]) + Number(jmbg[7])) +
+            5 * (Number(jmbg[2]) + Number(jmbg[8])) +
+            4 * (Number(jmbg[3]) + Number(jmbg[9])) +
+            3 * (Number(jmbg[4]) + Number(jmbg[10])) +
+            2 * (Number(jmbg[5]) + Number(jmbg[11]))) %
+            11);
+        if (controlCode > 9) {
+          controlCode = 0;
+        }
+        if (Number(k) !== controlCode) {
+          return { isValid: false, errorMessage: 'Control code is not valid!' };
+        }
+      }
+
+      return { isValid: true, errorMessage: null };
+    }
   }
 }
