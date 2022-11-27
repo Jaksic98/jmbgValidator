@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { concat } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +11,12 @@ import { concat } from 'rxjs';
 export class AppComponent {
   title = 'jmbgValidator';
   datePipeEn: DatePipe = new DatePipe('en-US');
+  // TODO: Finalize the design of the application
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
+  ) {}
 
   jmbgForm = this.formBuilder.group({
     jmbg: new FormControl('', [
@@ -25,14 +29,23 @@ export class AppComponent {
   onSubmit(): void {
     if (this.jmbgForm.valid) {
       let result = this.validate();
-      alert(result.isValid);
-      alert(result.errorMessage);
-      // alert(this.validate().errorMessage);
+      if (result.isValid) {
+        this.toastr.success('Your input for jmbg is valid!', 'JMBG is valid!');
+      } else {
+        this.toastr.error(result.errorMessage, 'JMBG is not valid!');
+      }
+    } else {
+      this.toastr.error('Input is not valid!', 'JMBG is not valid!');
     }
   }
 
   validate(): any {
-    var jmbg = this.jmbgForm.value.jmbg;
+    // alert(this.jmbgForm.invalid)
+    // if (this.jmbgForm.valid) {
+      var jmbg = this.jmbgForm.value.jmbg;
+    // } else {
+    //   return { isValid: false, errorMessage: 'Input is not valid!' };
+    // }
 
     var dd = '',
       mm = '',

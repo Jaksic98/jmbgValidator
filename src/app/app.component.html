@@ -1,14 +1,20 @@
 <div class="validator-window">
   <div class="row">
     <div class="col-md-12">
-      <form [formGroup]="jmbgForm" (ngSubmit)="onSubmit()">
-        <div>
-          <label for="name">
-            JMBG
-          </label>
-          <input id="name" type="text" formControlName="jmbg">
+      <form [formGroup]="jmbgForm" (ngSubmit)="onSubmit()" class="form-group">
+        <div class="row">
+          <div class="col-md-12">
+            <label for="jmbg" class="white-text"> JMBG </label>
+          </div>
+          <div class="col-md-12">
+            <input id="jmbg" class="form-control" type="text" formControlName="jmbg" />
+          </div>
         </div>
-          <button class="button" type="submit">Validate</button>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary" type="submit">Validate</button>
+          </div>
+        </div>
       </form>
     </div>
   </div>
