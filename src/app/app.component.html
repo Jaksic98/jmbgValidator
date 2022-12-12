@@ -1,21 +1,70 @@
-<div class="validator-window">
-  <div class="row">
-    <div class="col-md-12">
-      <form [formGroup]="jmbgForm" (ngSubmit)="onSubmit()" class="form-group">
-        <div class="row">
-          <div class="col-md-12">
-            <label for="jmbg" class="white-text"> JMBG </label>
+<div>
+  <div class="validator-window">
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="jmbgForm" (ngSubmit)="onSubmit()" class="form-group">
+          <div class="row">
+            <div class="col-md-12">
+              <label for="firstName" class="white-text"> First Name </label>
+            </div>
+            <div class="col-md-12">
+              <input
+                id="firstName"
+                class="form-control"
+                type="text"
+                formControlName="firstName"
+              />
+            </div>
+            <div class="col-md-12">
+              <label for="lastName" class="white-text"> Last Name </label>
+            </div>
+            <div class="col-md-12">
+              <input
+                id="lastName"
+                class="form-control"
+                type="text"
+                formControlName="lastName"
+              />
+            </div>
+            <div class="col-md-12">
+              <label for="jmbg" class="white-text"> JMBG </label>
+            </div>
+            <div class="col-md-12">
+              <input
+                id="jmbg"
+                class="form-control"
+                type="text"
+                formControlName="jmbg"
+              />
+            </div>
           </div>
-          <div class="col-md-12">
-            <input id="jmbg" class="form-control" type="text" formControlName="jmbg" />
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-primary" type="submit">Validate</button>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <button class="btn btn-primary" type="submit">Validate</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="formValid" class="information-window">
+    <div class="row">
+      <div class="col-md-12">
+        <label class="white-text"> First name: {{ firstName }}</label
+        ><br />
+        <label class="white-text"> Last name: {{ lastName }}</label
+        ><br />
+        <label class="white-text"> Date of birth: {{ dd }}</label
+        ><br />
+        <label class="white-text"> Month of birth: {{ mm }}</label
+        ><br />
+        <label class="white-text"> Year of birth: {{ year }}</label
+        ><br />
+        <label class="white-text"> Sex: {{ sex }}</label
+        ><br />
+        <label class="white-text"> Region: {{ region }}</label
+        ><br />
+      </div>
     </div>
   </div>
 </div>

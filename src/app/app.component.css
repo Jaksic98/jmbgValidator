@@ -1,21 +1,35 @@
 .validator-window {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    height: fit-content;
-    background-color: #434343;
-    border-radius: 10px;
-    margin: 20px;
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  background-color: #434343;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+}
+
+.validator-window input {
+  text-align: center;
+}
+
+.information-windßw {
+  width: fit-content;
+  height: fit-content;
+  background-color: #434343;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+  margin: auto;
 }
 
 .white-text {
-    color: white;
+  color: white;
 }
 
 .col-md-12 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
 }
